@@ -80,6 +80,7 @@ class WaypointUpdater(object):
 	    #lane.header = self.base_waypoints.header
 	    #lane.waypoints = self.base_waypoints.waypoints[closest_idx: closest_idx + LOOKAHEAD_WPS]
         final_lane = self.generate_lane(closest_idx)
+        self.stopline_wp_idx
         self.final_waypoints_pub.publish(final_lane)
 
     def generate_lane(self, closest_idx):
@@ -98,6 +99,7 @@ class WaypointUpdater(object):
         for i, wp in enumerate(waypoints):
             p = Waypoint
             p.pose = wp.pose
+            p.twist = wp.twist
             stop_idx = max(self.stopline_wp_idx - closest_idx - 2, 0)
             dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2 * MAX_DECEL * dist)
